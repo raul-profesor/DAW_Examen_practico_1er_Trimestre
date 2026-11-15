@@ -1,0 +1,15 @@
+server {
+    listen {% if item.name == 'puertos.daw' %}8080{% else %}80{% endif %};
+    listen [::]:{% if item.name == 'puertos.daw' %}8080{% else %}80{% endif %};
+    server_name {{ item.name }};
+
+    root {{ item.deploy_dir }}{% if item.name == 'puertos.daw' %}/public{% endif %};
+
+    index home.html;
+
+    add_header X-Served-By $hostname always;
+
+    location / {
+        try_files $uri $uri/home.html $uri/ =404;
+    }
+}
