@@ -5,11 +5,11 @@ server {
 
     root {{ item.deploy_dir }}{% if item.name == 'puertos.daw' %}/public{% endif %};
 
-    index home.html;
+    index idex.html;
 
     add_header X-Served-By $hostname always;
 
     location / {
-        try_files $uri $uri/home.html $uri/ =404;
+        try_files $uri $uri/idex.html $uri/ =404;
     }
 }

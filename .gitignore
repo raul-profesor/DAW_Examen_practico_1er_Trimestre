@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------------
+# Documentación interna del escenario
+# ---------------------------------------------------------------------------
+# ERRORES.md contiene el detalle de los fallos introducidos deliberadamente.
+# No debe subirse al repositorio para que los alumnos no los tengan delante.
+ERRORES.md
+
+# ---------------------------------------------------------------------------
+# Terraform
+# ---------------------------------------------------------------------------
+# Estado, locks y providers descargados por `terraform init`
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+
+# Estado remoto/local: contiene IPs, IDs y datos sensibles de la infraestructura
+terraform/terraform.tfstate
+terraform/terraform.tfstate.*
+terraform/terraform.tfstate.dummy
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Plan de ejecución generado por `terraform plan -out`
+*.tfplan
+*.tfplan.*
+
+# Claves privadas SSH generadas por el provider `tls` (local_sensitive_file).
+# Nunca deben subirse al repositorio.
+terraform/*.pem
+terraform/*.pem.pub
+*.pem
+*.pem.pub
+
+# Ficheros de entorno con credenciales de AWS
+.terraformrc
+terraform.rc
+.env
+.env.*
+*.env
+*.env.*
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Ficheros de variables propios. Terraform carga `terraform.tfvars` y `*.tfvars`
+# automáticamente, así que pueden contener credenciales o datos del alumno.
+terraform/*.tfvars
+terraform/*.tfvars.json
+*.tfvars
+*.tfvars.json
+
+# ---------------------------------------------------------------------------
+# Ansible
+# ---------------------------------------------------------------------------
+# Inventario generado por Terraform (contiene IPs públicas y rutas de claves)
+ansible/inventory.yml
+ansible/inventory.yaml
+inventory.yml
+inventory.yaml
+
+# Ficheros de reintento y artefactos temporales de las ejecuciones
+ansible/*.retry
+*.retry
+
+# Cache de ansible-lint y otros
+.ansible/
+.cache/
+ansible-lint.cache
+
+# ---------------------------------------------------------------------------
+# Editores e IDE
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---------------------------------------------------------------------------
+# Sistema operativo
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini

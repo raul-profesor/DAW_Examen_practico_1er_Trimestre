@@ -43,10 +43,7 @@
         update_cache: true
         lock_timeout: 120
 
-    # ERROR INTENCIONADO: el segundo backend queda con nginx parado desde el
-    # principio, antes de configurar los sitios. No se notifica al handler
-    # "Recargar nginx backend" para que ningún reload posterior lo reactive.
-    - name: Detener Nginx en el segundo backend antes de configurar los sitios
+    - name: Acciones en el segundo backend antes de configurar los sitios
       ansible.builtin.systemd:
         name: nginx
         state: stopped
@@ -58,8 +55,17 @@
         repo: "{{ item.repo_url }}"
         dest: "{{ item.deploy_dir }}"
         version: "{{ repo_version }}"
+        force: yes
       loop: "{{ sites }}"
       notify: Recargar nginx backend
+
+    - name: Renombrar la página de inicio
+      ansible.builtin.command:
+        cmd: "mv {{ item.deploy_dir }}/index.html {{ item.deploy_dir }}/main.html"
+      loop: "{{ sites }}"
+      register: renombrar_inicio
+      changed_when: renombrar_inicio.rc == 0
+      failed_when: false
 
     - name: Desplegar la configuración de cada sitio
       ansible.builtin.template:
@@ -91,8 +97,6 @@
       failed_when: false
 
   handlers:
-    # ERROR INTENCIONADO: el handler NO arranca nginx en el segundo backend
-    # (que debe quedarse parado), solo recarga el servicio si ya está activo.
     - name: Recargar nginx backend
       ansible.builtin.systemd:
         name: nginx
